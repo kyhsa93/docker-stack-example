@@ -35,6 +35,24 @@ services:
       placement:
         constraints:
           - node.role == manager
+      update_config:
+        parallelism: 1
+        failure_action: rollback
+        monitor: 5s
+        max_failure_ratio: 1
+        order: stop-first
+        delay: 5s
+      rollback_config:
+        parallelism: 0
+        failure_action: continue
+        monitor: 5s
+        max_failure_ratio: 3
+        order: stop-first
+      restart_policy:
+        max_attempts: 10
+        delay: 5s
+        window: 120s
+        condition: on-failure
 
   traefik:
     image: traefik
