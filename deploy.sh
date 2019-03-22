@@ -13,7 +13,7 @@ createDomain() {
   read domain
 
   if [ -z $domain ];then
-    echo "\033[31m"Argument is omitted. Root domain will be deploied localhost."\033[0m"
+    echo "\033[31m"Argument is omitted. Root domain will be deployed localhost."\033[0m"
     domain="localhost"
   fi
   echo "Selected root domain is "$domain
@@ -56,14 +56,14 @@ craeteAcmeEmail() {
 }
 
 proxy() {
-  # checkSwarm
+  checkSwarm
   createDomain
 
   network=$(docker network ls --filter name=traefik-public --format {{.Name}})
 
-  # if [ "$network" != "traefik-public" ];then
-  #   docker network create --driver overlay traefik-public
-  # fi
+  if [ "$network" != "traefik-public" ];then
+    docker network create --driver overlay traefik-public
+  fi
 
   overlay=$(docker network ls --filter name=traefik-public --filter driver=overlay --format {{.Name}})
 
